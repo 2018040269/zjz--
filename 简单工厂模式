@@ -1,0 +1,39 @@
+package main
+
+import "fmt"
+
+type Factory struct{}
+
+type Transport interface {
+	deliver()
+}
+
+type Truck struct{}
+func (d Truck) deliver() {
+	fmt.Println("在盒子中以陆运运输。")
+}
+
+type Ship struct{}
+func (d Ship) deliver() {
+	fmt.Println("在集装箱中以海路运输。")
+}
+
+func (f Factory) Generate(name string) Transport {
+	switch name {
+	case "truck":
+		return Truck{}
+	case "ship":
+		return Ship{}
+	default:
+		return nil
+	}
+}
+
+func main() {
+	factory := new(Factory)
+	d1 := factory.Generate("truck")
+	d1.deliver()
+
+	d2 := factory.Generate("ship")
+	d2.deliver()
+}
